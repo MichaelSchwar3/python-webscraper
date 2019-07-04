@@ -20,10 +20,13 @@ page_soup = soup(page_html, "html.parser")
 
 containers = page_soup.findAll("div", {"class": "archetype-tile"})
 percentage = page_soup.findAll("td", {"class": "percentage"})
-container = containers[0]
-container.span
 
-for container in container:
+
+filename = "mtgdecks.csv"
+f = open(filename, 'w')
+headers = "deck_name, decks, price, percentage\n"
+f.write(headers)
+for container in containers:
     deck_name = container.span.text.strip()
     decks = container.table.td.text.strip()
     percentage = container.findAll("td", {"class": "percentage"})[0].text.strip()
@@ -33,3 +36,6 @@ for container in container:
     print("Decks: " + decks)
     print("Price: " + price)
     print("Percentage played: " + price)
+    f.write(deck_name + "," + decks + "," + price + "," + percentage + "\n")
+
+f.close()
